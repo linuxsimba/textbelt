@@ -95,7 +95,7 @@ app.post('/text', function(req, res) {
     res.send({success:false, message:'Invalid phone number.'});
     return;
   }
-  textRequestHandler(req, res, number, req.body.carrier, 'us', req.query.key);
+  textRequestHandler(req, res, number, req.body.carrier, 'us', req.body.key);
 });
 
 app.post('/canada', function(req, res) {
@@ -213,7 +213,7 @@ function textRequestHandler(req, res, number, carrier, region, key) {
     }, 1000*60*3);
     if (num > 3) {
       //mpq.track('exceeded phone quota', tracking_details);
-      res.send({success:false, message:'Exceeded quota for this phone number. ' + number});
+      res.send({success:false, message:'Exceeded quota for this phone number. ' + number + 'num: ' + num });
       return;
     }
 

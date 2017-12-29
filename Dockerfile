@@ -2,11 +2,9 @@ FROM node:carbon
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+RUN git clone https://github.com/linuxsimba/textbelt .
 
 RUN npm install
-
-COPY . .
 
 RUN touch server/torlist
 

@@ -4,6 +4,9 @@
     "type": "git",
     "url": "git@github.com:typpo/textbelt.git"
   },
+  "scripts": {
+    "start": "node server/app.js"
+  },
   "dependencies": {
     "authbox": "^0.9.3",
     "express": "~3.5.1",

@@ -72,7 +72,7 @@ try {
   json_file = require('jsonfile');
   let keyname = process.env.KEYNAME;
   let obj = {};
-  let file = 'server/keys.json';
+  let file = './keys.json';
   obj[keyname] = "-1";
   jsonfile.writeFile(file, obj, function(err) {
     console.error(err)

@@ -64,10 +64,21 @@ try {
 }
 
 var access_keys;
+var json_file;
 try {
   // Optionally, you may specify special access keys in a keys.json file.
   // These access keys are not rate-limited.
   // See example_keys.json for format.
+  json_file = require('jsonfile');
+  let keyname = process.env.KEYNAME;
+  let obj = {};
+  let file = 'server/keys.json';
+  obj[keyname] = "-1";
+  jsonfile.writeFile(file, obj, function(err) {
+    console.error(err)
+  });
+
+
   access_keys = require('./keys.json');
 } catch (e) {
   access_keys = {};

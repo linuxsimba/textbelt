@@ -74,10 +74,7 @@ try {
   let obj = {};
   let file = './keys.json';
   obj[keyname] = "-1";
-  jsonfile.writeFile(file, obj, function(err) {
-    console.error(err)
-  });
-
+  json_file.writeFile(file, obj);
 
   access_keys = require('./keys.json');
 } catch (e) {

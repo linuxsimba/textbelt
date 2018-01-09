@@ -63,23 +63,9 @@ try {
   mpq = {track: function() {}};
 }
 
-var access_keys;
-var json_file;
-try {
-  // Optionally, you may specify special access keys in a keys.json file.
-  // These access keys are not rate-limited.
-  // See example_keys.json for format.
-  json_file = require('jsonfile');
-  let keyname = process.env.KEYNAME;
-  let obj = {};
-  let file = './keys.json';
-  obj[keyname] = "-1";
-  json_file.writeFile(file, obj);
-
-  access_keys = require('./keys.json');
-} catch (e) {
-  access_keys = {};
-}
+var access_keys = {}
+var keyname = process.env.KEYNAME;
+access_keys[keyname] = "-1";
 
 // App routes
 app.get('/', function(req, res) {

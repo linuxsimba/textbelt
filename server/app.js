@@ -63,23 +63,9 @@ try {
   mpq = {track: function() {}};
 }
 
-var access_keys;
-var json_file;
-try {
-  // Optionally, you may specify special access keys in a keys.json file.
-  // These access keys are not rate-limited.
-  // See example_keys.json for format.
-  json_file = require('jsonfile');
-  let keyname = process.env.KEYNAME;
-  let obj = {};
-  let file = './keys.json';
-  obj[keyname] = "-1";
-  json_file.writeFile(file, obj);
-
-  access_keys = require('./keys.json');
-} catch (e) {
-  access_keys = {};
-}
+var access_keys = {}
+var keyname = process.env.KEYNAME;
+access_keys[keyname] = "-1";
 
 // App routes
 app.get('/', function(req, res) {
@@ -95,12 +81,12 @@ app.get('/providers/:region', function(req, res) {
 
 app.post('/text', function(req, res) {
   if (req.body.getcarriers != null && (req.body.getcarriers == 1 || req.body.getcarriers.toLowerCase() == 'true')) {
-    res.status(200).json({success:true, carriers:Object.keys(carriers).sort()});
+    res.send({success:true, carriers:Object.keys(carriers).sort()});
     return;
   }
   var number = stripPhone(req.body.number);
   if (number.length < 9 || number.length > 10) {
-    res.status(400).json({success:false, message:'Invalid phone number.'});
+    res.send({success:false, message:'Invalid phone number.'});
     return;
   }
   textRequestHandler(req, res, number, req.body.carrier, 'us', req.body.key);

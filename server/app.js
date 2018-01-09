@@ -182,7 +182,7 @@ function textRequestHandler(req, res, number, carrier, region, key) {
     mpq.track('sendText skipping verification', _.extend(tracking_details, {
       key: key,
     }));
-    doSendText({used_key: key});
+    doSendText({});
     return;
   }
 

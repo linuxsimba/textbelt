@@ -1,3 +1,4 @@
+server/torlist
 banned_numbers.js
 mixpanel_config.js
 authbox_config.js

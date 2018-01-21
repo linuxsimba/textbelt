@@ -1,4 +1,4 @@
-var express = require('express')
+let express = require('express')
   , app = express()
   , _ = require('underscore')
   , carriers = require('../lib/carriers.js')
@@ -32,16 +32,16 @@ text.config({
 });
 
 // Optional modules
-var banned_numbers;
+let banned_numbers;
 try {
   banned_numbers = require('./banned_numbers.js');
 } catch(e) {
   banned_numbers = {BLACKLIST: {}};
 }
 
-var banned_ips = {};
+let banned_ips = {};
 try {
-  var banned_list = fs.readFileSync(path.join(__dirname, './torlist')).toString('utf-8').split('\n');
+  let banned_list = fs.readFileSync(path.join(__dirname, './torlist')).toString('utf-8').split('\n');
   banned_list.map(function(ip) {
     ip = ip.trim();
     if (ip != '') {
@@ -54,7 +54,7 @@ try {
 }
 
 
-var mpq
+let mpq
   , mixpanel_config;
 try {
   mixpanel_config = require('./mixpanel_config.js');
@@ -63,8 +63,8 @@ try {
   mpq = {track: function() {}};
 }
 
-var access_keys = {}
-var keyname = process.env.KEYNAME;
+let access_keys = {}
+let keyname = process.env.KEYNAME;
 access_keys[keyname] = "-1";
 
 // App routes
@@ -84,7 +84,7 @@ app.post('/text', function(req, res) {
     res.send({success:true, carriers:Object.keys(carriers).sort()});
     return;
   }
-  var number = stripPhone(req.body.number);
+  let number = stripPhone(req.body.number);
   if (number.length < 9 || number.length > 10) {
     res.send({success:false, message:'Invalid phone number.'});
     return;
@@ -103,7 +103,7 @@ app.post('/intl', function(req, res) {
 // App helper functions
 
 function textRequestHandler(req, res, number, carrier, region, key) {
-  var ip = req.connection.remoteAddress;
+  let ip = req.connection.remoteAddress;
   if (!ip || ip === '127.0.0.1') {
     ip = req.header('X-Real-IP');
   }
@@ -125,7 +125,7 @@ function textRequestHandler(req, res, number, carrier, region, key) {
     }
   }
 
-  var message = req.body.message;
+  let message = req.body.message;
   if (message.indexOf(':') > -1) {
     // Handle problem with vtext where message would not get sent properly if it
     // contains a colon.
@@ -139,10 +139,10 @@ function textRequestHandler(req, res, number, carrier, region, key) {
     return;
   }
 
-  var shasum = crypto.createHash('sha1');
+  let shasum = crypto.createHash('sha1');
   shasum.update(number);
 
-  var tracking_details = {
+  let tracking_details = {
     number: number,
     message: req.body.message,
     ip: ip,
@@ -155,8 +155,13 @@ function textRequestHandler(req, res, number, carrier, region, key) {
     return;
   }
 
-  var doSendText = function(response_obj) {
+  let doSendText = function(response_obj) {
     response_obj = response_obj || {};
+
+    if (process.env.NODE_ENV == 'dev') {
+      console.log("pin is ${message}")
+      return
+    }
 
     // Time to actually send the message
     text.send(number, message, carrier, region, function(err) {
@@ -187,8 +192,8 @@ function textRequestHandler(req, res, number, carrier, region, key) {
   }
 
   // If they don't have a special key, apply rate limiting and verification
-  var ipkey = 'textbelt:ip:' + ip + '_' + dateStr();
-  var phonekey = 'textbelt:phone:' + number;
+  let ipkey = 'textbelt:ip:' + ip + '_' + dateStr();
+  let phonekey = 'textbelt:phone:' + number;
 
   redis.incr(phonekey, function(err, num) {
     if (err) {
@@ -239,10 +244,10 @@ function textRequestHandler(req, res, number, carrier, region, key) {
 }           // end textRequestHandler
 
 function dateStr() {
-  var today = new Date();
-  var dd = today.getDate();
-  var mm = today.getMonth()+1;
-  var yyyy = today.getFullYear();
+  let today = new Date();
+  let dd = today.getDate();
+  let mm = today.getMonth()+1;
+  let yyyy = today.getFullYear();
   return mm + '/' + dd + '/' + yyyy;
 }
 
@@ -251,7 +256,7 @@ function stripPhone(phone) {
 }
 
 // Start server
-var port = process.env.PORT || 9090;
+let port = process.env.PORT || 9090;
 app.listen(port, function() {
   console.log('Listening on', port);
 });

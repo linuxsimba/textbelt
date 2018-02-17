@@ -1,9 +1,13 @@
 {
   "name": "TextBelt",
+  "pkg": {
+    "assets": "node_modules/rai/cert/*"
+  },
   "repository": {
     "type": "git",
     "url": "git@github.com:typpo/textbelt.git"
   },
+  "bin": "server/app.js",
   "scripts": {
     "start": "node server/app.js"
   },
@@ -14,6 +18,7 @@
     "jsonfile": "^4.0.0",
     "mixpanel": "~0.0.19",
     "nodemailer": "^0.6.5",
+    "rai": "^0.1.12",
     "redis-url": "~0.2.0",
     "underscore": "~1.6.0"
   },

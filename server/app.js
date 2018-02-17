@@ -12,11 +12,11 @@ let express = require('express')
   , text = require('../lib/text');
 
 // Express config
-app.set('views', __dirname + '/views');
-app.set('view engine', 'jade');
+//app.set('views', __dirname + '/views');
+//app.set('view engine', 'jade');
 
-app.use(express.cookieParser());
-app.use(express.static(__dirname + '/public'));
+//app.use(express.cookieParser());
+//app.use(express.static(__dirname + '/public'));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(function(req, res, next) {

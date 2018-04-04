@@ -162,7 +162,7 @@ function textRequestHandler(req, res, number, carrier, region, key) {
     console.log(`Print Node Env status ${nodeEnv}`)
 
     if (nodeEnv == 'dev') {
-      console.log("pin is ${message}")
+      console.log(`pin is ${message}`)
       res.send(_.extend(response_obj,
             { success: true }))
       return
